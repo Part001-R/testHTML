@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Главная страница</title>
+    <style>
+        /* Позиционирование для input */
+        #idText1 {
+            position: absolute; 
+            top: 50px; 
+            left: 100px; 
+        }
+        #idText2 {
+            position: absolute; 
+            top: 80px; 
+            left: 100px; 
+        }
+
+        /* Позиционирование для button */
+        #button1 {
+            position: absolute; 
+            top: 110px; 
+            left: 150px; 
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="idText1" placeholder="Введите логин" />
+    <input type="password" id="idText2" placeholder="Введите пароль" />
+    <button id="button1" onclick='buttonClicked("idText1", "idText2")'>Отправить</button>
+    <script src="static/main.js"></script>
+</body>
+
+</html>
