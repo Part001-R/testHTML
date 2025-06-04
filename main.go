@@ -22,7 +22,15 @@ type Message struct {
 }
 
 func main() {
-	handleRequest()
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", home_page)
+	mux.HandleFunc("/button_click", buttonClickHandler)
+
+	fs := http.FileServer(http.Dir("templates/static"))
+	mux.Handle("/static/", http.StripPrefix("/static/", fs))
+
+	log.Println("Server listening on port 8080")
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
 
 func home_page(w http.ResponseWriter, r *http.Request) {
@@ -63,17 +71,4 @@ func buttonClickHandler(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Error(w, "Метод не разрешен", http.StatusMethodNotAllowed)
 	}
-}
-
-func handleRequest() {
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", home_page)
-	mux.HandleFunc("/button_click", buttonClickHandler)
-
-	fs := http.FileServer(http.Dir("templates/static"))
-	mux.Handle("/static/", http.StripPrefix("/static/", fs))
-
-	log.Println("Server listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
 }
