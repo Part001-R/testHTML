@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"log"
+	"net"
 	"net/http"
 )
 
@@ -29,12 +30,25 @@ func main() {
 	fs := http.FileServer(http.Dir("templates/static"))
 	mux.Handle("/static/", http.StripPrefix("/static/", fs))
 
-	log.Println("Server listening on port 8080")
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	port := "8080"
+	log.Println("Запуск сервера па порту:", port)
+	fmt.Println()
+	log.Fatal(http.ListenAndServe(":"+port, mux))
 }
 
 // Вывод домашней страницы
 func home_page(w http.ResponseWriter, r *http.Request) {
+	clientIP, clientPort, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		fmt.Println("ошибка при определении источника запроса")
+	}
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	fmt.Println("===========================")
+	fmt.Printf("Запрос домашней страницы, от --> %s:%s\n", clientIP, clientPort)
+	fmt.Println("===========================")
+	fmt.Println()
 
 	tmpl, err := template.ParseFiles("templates/home_page.html")
 	if err != nil {
@@ -50,6 +64,18 @@ func home_page(w http.ResponseWriter, r *http.Request) {
 
 // Приём данных
 func hndlRxData(w http.ResponseWriter, r *http.Request) {
+	clientIP, clientPort, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		fmt.Println("ошибка при определении источника запроса")
+	}
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	fmt.Println("===========================")
+	fmt.Printf("Запрос c данными, получен от --> %s:%s\n", clientIP, clientPort)
+	fmt.Println("===========================")
+	fmt.Println()
+
 	if r.Method == http.MethodPost {
 		var msg Message
 		err := json.NewDecoder(r.Body).Decode(&msg)
@@ -58,6 +84,7 @@ func hndlRxData(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		fmt.Println("Получено сообщение:", msg.Message)
+		fmt.Println()
 		w.WriteHeader(http.StatusOK)
 	} else {
 		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
@@ -66,6 +93,18 @@ func hndlRxData(w http.ResponseWriter, r *http.Request) {
 
 // Передача информации о пользователе
 func hndlTxUserInfo(w http.ResponseWriter, r *http.Request) {
+	clientIP, clientPort, err := net.SplitHostPort(r.RemoteAddr)
+	if err != nil {
+		fmt.Println("ошибка при определении источника запроса")
+	}
+	if clientIP == "::1" {
+		clientIP = "127.0.0.1"
+	}
+	fmt.Println("===========================")
+	fmt.Printf("Запрос на передачу данных, от --> %s:%s\n", clientIP, clientPort)
+	fmt.Println("===========================")
+	fmt.Println()
+
 	if r.Method == http.MethodGet {
 		bob := User{
 			Name:       "Пётр",
