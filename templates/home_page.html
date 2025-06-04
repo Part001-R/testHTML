@@ -1,37 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Главная страница</title>
     <style>
-        /* Позиционирование для input */
         #idText1 {
-            position: absolute; 
-            top: 50px; 
-            left: 100px; 
+            position: absolute;
+            top: 50px;
+            left: 100px;
         }
         #idText2 {
-            position: absolute; 
-            top: 80px; 
-            left: 100px; 
+            position: absolute;
+            top: 80px;
+            left: 100px;
         }
-
-        /* Позиционирование для button */
         #button1 {
+            position: absolute;
+            top: 110px;
+            left: 150px;
+        }
+        #showUserButton {
             position: absolute; 
-            top: 110px; 
-            left: 150px; 
+            top: 200px; 
+            left: 90px;
+        }
+        #userInfo {
+            position: absolute; 
+            top: 230px;
+            left: 100px;
+            border: 1px solid black; 
+            padding: 10px;
         }
     </style>
 </head>
-
 <body>
     <input type="text" id="idText1" placeholder="Введите логин" />
     <input type="password" id="idText2" placeholder="Введите пароль" />
-    <button id="button1" onclick='buttonClicked("idText1", "idText2")'>Отправить</button>
+    <button id="button1" onclick='buttonClicked("idText1", "idText2", "button1")'>Отправить</button>
+    <button id="showUserButton" onclick="showUserInfo()">Показать данные пользователя</button> 
+    <div id="userInfo"></div> 
     <script src="static/main.js"></script>
 </body>
-
 </html>
